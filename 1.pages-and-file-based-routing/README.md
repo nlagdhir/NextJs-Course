@@ -1,7 +1,7 @@
 
 # NextJS Pages and File-based Routing
 
-Simple Portfolio website with below sections : 
+Used below concepts and implements it while learning in this project : 
 
 - Add Named / Static route file
 - Worked with Nested Paths and Routes
