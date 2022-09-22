@@ -1,10 +1,10 @@
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import EventList from "../components/events/event-list";
 import useSWR from "swr";
 import { getFeaturedEvents } from "../helpers/api.util";
 
 const HomePage = (props) => {
-
   const [featuredEvents, setFeaturedEvents] = useState(props.featuredEvents);
 
   // Fetch using useSWR
@@ -74,6 +74,13 @@ const HomePage = (props) => {
 
   return (
     <section>
+      <Head>
+        <title>NextJS Events</title>
+        <meta
+          name="description"
+          content="Find a lot of great events that allow you to evolve..."
+        />
+      </Head>
       <h1 className="center title">Feature Events</h1>
       <EventList items={props.featuredEvents} />
     </section>
@@ -89,6 +96,6 @@ export const getStaticProps = async () => {
     props: {
       featuredEvents: eventsData,
     },
-    revalidate : 1800
+    revalidate: 1800,
   };
 };
