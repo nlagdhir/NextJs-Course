@@ -15,7 +15,7 @@ const EventDetailPage = (props) => {
     return (
       <Fragment>
         <Head>
-        <title>{event.title}</title>
+        <title>{event.title}</title>   
         <meta
           name="description"
           content={event.description}
