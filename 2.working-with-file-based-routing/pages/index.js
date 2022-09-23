@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import EventList from "../components/events/event-list";
 import useSWR from "swr";
 import { getFeaturedEvents } from "../helpers/api.util";
+import NewsLetterRegistration from '../components/input/newsletter-registration';
 
 const HomePage = (props) => {
   const [featuredEvents, setFeaturedEvents] = useState(props.featuredEvents);
@@ -81,7 +82,9 @@ const HomePage = (props) => {
           content="Find a lot of great events that allow you to evolve..."
         />
       </Head>
+
       <h1 className="center title">Feature Events</h1>
+      <NewsLetterRegistration />
       <EventList items={props.featuredEvents} />
     </section>
   );
