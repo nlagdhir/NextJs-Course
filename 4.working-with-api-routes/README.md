@@ -4,9 +4,9 @@
 Learn About below concepts and pracitce in this project : 
 
 - What is API Routes
-- Lean about API routes and work with it
+- Learn about API routes and work with it
 - Created couple of dummy APIs to store data and fetch data
-- Learn abour API routing and how to manage dynamic route
+- Learn about API routing and how to manage dynamic route
 
 ## Tech Stack
 
