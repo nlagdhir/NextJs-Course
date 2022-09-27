@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 
 import CommentList from './comment-list';
 import NewComment from './new-comment';
@@ -9,6 +9,17 @@ const Comments = (props) => {
 
   const [showComments, setShowComments] = useState(false);
   const [success, setSuccess] = useState('');
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if (showComments) {
+      fetch("/api/comments/" + eventId)
+        .then((response) => response.json())
+        .then((data) => {
+          setComments(data.comments);
+        });
+    }
+  }, [showComments]);
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);
@@ -22,18 +33,19 @@ const Comments = (props) => {
         ...commentData
     }
 
-    fetch('/api/comment',{
-      method : 'POST',
-      body : JSON.stringify(newCommentOBj),
-      headers : {
-        'Content-Type' : 'application/json',
-      }
-    }).then(response => response.json())
-    .then(data => {
-      if(data.status === 200){
-        setSuccess(data.message);
-      }
+    fetch("/api/comments/" + eventId, {
+      method: "POST",
+      body: JSON.stringify(commentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setSuccess(data.message);
+        }
+      });
   }
 
   return (
@@ -43,7 +55,7 @@ const Comments = (props) => {
       </button>
       {success && <p>{success}</p>}
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList />}
+      {showComments && <CommentList items={comments}  />}
     </section>
   );
 }
