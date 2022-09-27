@@ -12,13 +12,16 @@ const Comments = (props) => {
   const [showComments, setShowComments] = useState(false);
   const [success, setSuccess] = useState('');
   const [comments, setComments] = useState([]);
+  const [isFetchingComments, setIsFetchingComments] = useState(false);
 
   useEffect(() => {
+    setIsFetchingComments(true);
     if (showComments) {
       fetch("/api/comments/" + eventId)
         .then((response) => response.json())
         .then((data) => {
           setComments(data.comments);
+          setIsFetchingComments(false);
         });
     }
   }, [showComments]);
@@ -48,7 +51,15 @@ const Comments = (props) => {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json(); 
+        }
+
+        return response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong!");
+        });
+      })
       .then((data) => {
         if (data.status === 200) {
           setSuccess(data.message);
@@ -58,7 +69,13 @@ const Comments = (props) => {
             status : 'status'
           })
         }
-      });
+      }).catch(error => {
+        notificationCtx.showNotification({
+          title : 'Error',
+          message : error.message || 'Something went wrong!',
+          status : 'error'
+        })
+      })
   }
 
   return (
@@ -68,7 +85,8 @@ const Comments = (props) => {
       </button>
       {success && <p>{success}</p>}
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList items={comments}  />}
+      {showComments || !isFetchingComments && <CommentList items={comments}  />}
+      {showComments || isFetchingComments && <div>Loading...</div>}
     </section>
   );
 }
