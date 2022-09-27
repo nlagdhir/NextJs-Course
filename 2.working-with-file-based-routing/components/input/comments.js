@@ -85,8 +85,8 @@ const Comments = (props) => {
       </button>
       {success && <p>{success}</p>}
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments || !isFetchingComments && <CommentList items={comments}  />}
-      {showComments || isFetchingComments && <div>Loading...</div>}
+      {showComments && !isFetchingComments && <CommentList items={comments}  />}
+      {showComments && isFetchingComments && <div>Loading...</div>}
     </section>
   );
 }
