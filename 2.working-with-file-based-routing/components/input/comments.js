@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 
 import CommentList from './comment-list';
 import NewComment from './new-comment';
 import classes from './comments.module.css';
+import NotificationContext from "../../store/notification-context";
 
 const Comments = (props) => {
   const { eventId } = props;
+  const notificationCtx = useContext(NotificationContext);
 
   const [showComments, setShowComments] = useState(false);
   const [success, setSuccess] = useState('');
@@ -33,6 +35,12 @@ const Comments = (props) => {
         ...commentData
     }
 
+    notificationCtx.showNotification({
+      title : 'Post comment',
+      message : 'Comment is submiting',
+      status : 'pending'
+    })
+
     fetch("/api/comments/" + eventId, {
       method: "POST",
       body: JSON.stringify(commentData),
@@ -44,6 +52,11 @@ const Comments = (props) => {
       .then((data) => {
         if (data.status === 200) {
           setSuccess(data.message);
+          notificationCtx.showNotification({
+            title : 'Success',
+            message : data.message || 'Comment posted!',
+            status : 'status'
+          })
         }
       });
   }
