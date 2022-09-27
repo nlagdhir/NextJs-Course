@@ -66,7 +66,7 @@ const Comments = (props) => {
           notificationCtx.showNotification({
             title : 'Success',
             message : data.message || 'Comment posted!',
-            status : 'status'
+            status : 'success'
           })
         }
       }).catch(error => {
