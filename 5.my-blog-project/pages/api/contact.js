@@ -24,9 +24,11 @@ const handler = async (req, res) => {
       message,
     };
 
-    let client;  
+    //const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.ntrwp.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
+
+    let client;
     try {
-      client = await MongoClient.connect(process.env.MongoString); 
+      client = await MongoClient.connect(process.env.MongoString);
     } catch (error) {
       res.status(500).json({
         message: "Could not connect to database.",
@@ -36,10 +38,12 @@ const handler = async (req, res) => {
 
     try {
       const db = client.db("my-blog");
-      const result = await db.collection("contact-emails").insertOne(newMessage);
+      const result = await db
+        .collection("contact-emails")
+        .insertOne(newMessage);
     } catch (error) {
-      res.status(500).json({ 
-        message: "Error in data inserting!",  
+      res.status(500).json({
+        message: "Error in data inserting!",
       });
       return;
     }
