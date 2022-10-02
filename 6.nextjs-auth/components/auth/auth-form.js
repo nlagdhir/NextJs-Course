@@ -5,7 +5,7 @@ function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
 
   function switchAuthModeHandler() {
-    setIsLogin((prevState) => !prevState);
+    setIsLogin((prevState) => !prevState);  
   }
 
   return (
